@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Table Practice — Maths Drills</title>
+<style>
+:root{--bg:#10131b;--panel:#1c2230;--line:#343e51;--text:#f5f7ff;--muted:#b2bdd0;--yellow:#ffc928;--green:#16a66a;--red:#e3485b;--blue:#477bff;--purple:#8b5cf6;--cyan:#28c5d7}
+*{box-sizing:border-box}html,body{width:100%;max-width:100%;overflow-x:clip}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:18px 16px 14px;background:#20242d;position:sticky;top:0;z-index:2;border-bottom:1px solid var(--line)}
+h1{font-size:21px;margin:0 0 4px}header p{margin:0;color:var(--muted);font-size:13px}
+.controls{display:flex;gap:10px;align-items:end;margin-top:14px;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--muted)}.field[hidden],label[hidden],select[hidden]{display:none!important}
+select,button{font:inherit;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#11141a;color:var(--text)}
+button{background:var(--blue);border:0;font-weight:700;cursor:pointer}.secondary{background:#303541}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.header-top h1{font-size:19px;letter-spacing:-.3px}
+.icon-btn{padding:7px 9px;font-size:18px;min-width:40px;min-height:38px;border:1px solid var(--line);background:#303541;border-radius:10px}
+.controls{gap:6px;margin-top:10px}
+.controls button,.controls select{padding:8px 9px;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 12px 4px}
+.stat{background:linear-gradient(145deg,#222a3a,#191e29);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center;cursor:pointer;box-shadow:0 5px 14px #0002;transition:transform .15s,border-color .15s}.stat:active{transform:scale(.98);border-color:var(--blue)}.stat:nth-child(1) strong{color:#46d69a}.stat:nth-child(2) strong{color:#70a4ff}.stat:nth-child(3) strong{color:#c4a3ff}.stat strong{display:block;font-size:20px}.stat span{font-size:11px;color:var(--muted)}
+main{padding:10px 12px 28px;width:100%;max-width:650px;margin:auto;min-width:0}
+.table-head,.item{display:grid;grid-template-columns:38px minmax(0,1fr) minmax(66px,.8fr) 44px;gap:7px;align-items:center}
+.table-head{color:var(--muted);font-size:11px;padding:8px 6px;text-align:center}
+.item{margin-bottom:7px;min-height:55px}.num{text-align:center;color:var(--muted);font-size:13px}
+.question{background:linear-gradient(135deg,#ffd54a,#ffb91e);color:#202020;font-weight:750;border-radius:9px;padding:15px 5px;text-align:center;font-size:clamp(14px,3.5vw,18px);white-space:nowrap}
+.answer{width:100%;min-width:0;text-align:center;border:2px solid var(--line);border-radius:9px;background:#20242d;color:var(--text);font-size:18px;padding:12px 3px;outline:none}
+.answer:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(71,123,255,.18)}.answer.correct{background:#123c2c;border-color:var(--green)}.answer.wrong{background:#4a1e26;border-color:var(--red)}
+.mark{height:47px;width:100%;display:grid;place-items:center;border-radius:9px;background:#242832;font-size:23px;font-weight:800;border:0;color:var(--text);padding:0;cursor:pointer}.mark.correct{background:var(--green)}.mark.wrong{background:var(--red)}
+.feedback{font-size:12px;color:var(--muted);padding:2px 4px 10px 45px;min-height:16px}
+.actions{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}.actions button{flex:1}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin:12px 2px}
+@media(min-width:500px){main{padding-left:18px;padding-right:18px}.item{grid-template-columns:45px minmax(0,1fr) 100px 50px;gap:10px}.question{font-size:18px}}
+
+.settings-panel{margin:12px;padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.settings-panel h2{font-size:17px;margin:0 0 10px}
+.sound-toggle{display:flex;align-items:center;gap:10px;font-size:14px}
+.sound-toggle input{width:20px;height:20px;accent-color:var(--blue)}
+#progressPanel{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.progress-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+.progress-row .weak{color:#ff7b86;font-weight:700}
+
+.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px;align-items:end;width:100%}
+.controls select{padding:8px 9px;font-size:13px;max-width:100%;width:100%;min-width:0}
+.controls button{padding:9px 10px;font-size:13px;border-radius:9px;width:100%;min-width:0}
+.settings-panel{margin:8px 12px;padding:11px}
+.settings-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.settings-panel h2{font-size:15px;margin:0}
+.settings-panel .note{margin:8px 0;font-size:11px}
+.settings-panel .actions{margin:8px 0 0}
+.settings-panel .actions button{padding:9px 8px;font-size:12px}
+.small-btn{padding:6px 10px;font-size:12px}
+
+.dashboard-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}.dashboard-grid>div{background:linear-gradient(145deg,#242c3d,#151923);border:1px solid var(--line);border-radius:9px;padding:9px 4px;text-align:center}.dashboard-grid strong{display:block;font-size:17px}.dashboard-grid span{font-size:10px;color:var(--muted)}.target-field{margin:8px 0}.target-field select{margin-top:5px}.target-track{height:8px;border-radius:99px;background:#303541;overflow:hidden}.target-track div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--green),var(--purple));transition:width .2s}.settings-panel[hidden]{display:none}.field select{max-width:100%}#rangeStart,#rangeEnd{min-width:70px}.range-help{font-size:11px;color:var(--muted);margin:2px 0 8px}
+
+/* ChatGPT-like side navigation */
+.menu-btn{font-size:22px;width:42px;height:42px;padding:0;background:transparent;border:1px solid var(--line);border-radius:10px}
+.header-top{justify-content:flex-start}
+.header-top>div{flex:1}.owner-avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#171a20;border:2px solid var(--yellow);flex-shrink:0;color:var(--yellow);font-size:32px;font-weight:900;line-height:1}.owner-tag{margin:3px 0 0;color:var(--muted);font-size:12px}
+#quickNav{display:none!important}
+#sideOverlay{position:fixed;inset:0;background:#0009;z-index:20}
+#sideDrawer{position:fixed;inset:0 auto 0 0;width:min(82vw,300px);background:#171a20;border-right:1px solid var(--line);z-index:21;padding:16px;transform:translateX(-105%);transition:transform .22s ease;overflow:auto}
+#sideDrawer.open{transform:translateX(0)}
+.drawer-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.drawer-title{font-size:18px;font-weight:800}
+.drawer-btn{display:flex;width:100%;align-items:center;gap:12px;text-align:left;background:transparent;border:1px solid transparent;padding:12px;border-radius:10px;margin:4px 0;font-weight:600}
+.drawer-btn:active,.drawer-btn:hover{background:#292e38}
+.drawer-section{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin:18px 8px 6px}
+.drawer-divider{border:0;border-top:1px solid var(--line);margin:14px 0}
+#drawerDashboard,#drawerSettings{margin:10px 0;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+#drawerDashboard[hidden],#drawerSettings[hidden],#sideOverlay[hidden]{display:none}
+#drawerDashboard .settings-heading,#drawerSettings .settings-heading{margin-bottom:10px}
+#drawerDashboard .dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+#drawerDashboard .actions{flex-direction:column}
+#drawerDashboard .actions button{width:100%}
+#drawerSettings .actions{flex-direction:column}
+#drawerSettings .actions button{width:100%}
+#proPanel,#settingsPanel{display:none!important}
+/* Full-screen pages for dashboard, reports and policy information */
+#dashboardPage[hidden],#detailPanel[hidden]{display:none!important}
+#dashboardPage{position:fixed;inset:0;z-index:50;background:var(--bg);overflow-y:auto;padding:0 14px 28px;}
+#dashboardPage #drawerDashboard{display:block!important;max-width:760px;margin:0 auto;padding:16px 0;background:transparent;border:0;border-radius:0}
+#dashboardPage #drawerDashboard .settings-heading{position:sticky;top:0;background:var(--bg);padding:14px 0;z-index:2;border-bottom:1px solid var(--line)}
+#dashboardPage #drawerDashboard .actions{flex-direction:column}
+#dashboardPage #drawerDashboard .actions button{width:100%}
+#detailPanel.full-page{position:fixed;inset:0;z-index:60;margin:0;padding:0;border:0;border-radius:0;overflow-y:auto;background:var(--bg);}
+#detailPanel.full-page .settings-heading{position:sticky;top:0;background:#20242d;padding:15px 14px;border-bottom:1px solid var(--line);z-index:2}
+#detailPanel.full-page #detailBody{padding:14px;max-width:760px;margin:0 auto}
+#detailPanel.full-page h3{margin-top:22px}
+#detailPanel .page-back{position:sticky;bottom:0;width:100%;margin-top:20px}
+.policy-list li{margin:8px 0;line-height:1.5}
+.policy-note{border:1px solid #66541e;background:#2c2718;padding:10px;border-radius:10px;font-size:12px;line-height:1.5}
+@media(max-width:420px){header{padding:12px 12px 10px}.header-top h1{font-size:18px}.controls{gap:8px}.controls select{max-width:100%;width:100%}}
+
+
+.options-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:10px;padding:9px 12px;background:#2a3040;border:1px solid #3a455b;border-radius:11px;color:var(--text);font-size:13px}
+.options-toggle span{font-size:18px;color:#70a4ff}
+#practiceControls{display:none}
+#practiceControls.open{display:grid}
+main .stats{padding:0 0 7px;gap:6px}
+main .stat{padding:7px 4px;border-radius:11px}
+main .stat strong{font-size:18px}
+main .stat span{font-size:10px}
+@media(max-width:420px){header{padding-bottom:10px}.options-toggle{margin-top:8px}main{padding-top:8px}}
+
+</style>
+<meta name="theme-color" content="#20242d"><link rel="manifest" href="./manifest.webmanifest"></head>
+<body>
+<div id="sideOverlay" hidden></div>
+<aside id="sideDrawer" aria-label="App menu">
+ <div class="drawer-top"><div class="drawer-title">Table Practice</div><button id="closeMenu" class="icon-btn" type="button" aria-label="Close menu">✕</button></div>
+ <a class="drawer-btn" href="./arithmetic-game.html" style="text-decoration:none">∞ <span>Math Infinity Game</span></a>
+ <button class="drawer-btn mode-choice" data-mode="tables">▦ <span>Table Practice</span></button>
+ <button class="drawer-btn mode-choice" data-mode="squares">² <span>Squares</span></button>
+ <button class="drawer-btn mode-choice" data-mode="roots">√ <span>Square Roots</span></button>
+ <button class="drawer-btn mode-choice" data-mode="cubes">³ <span>Cubes</span></button>
+ <button class="drawer-btn mode-choice" data-mode="cuberoots">∛ <span>Cube Roots</span></button>
+ <hr class="drawer-divider">
+ <button class="drawer-btn" id="openDashboard">▤ <span>Study dashboard</span></button>
+ <button class="drawer-btn" id="openSettings">⚙ <span>Settings</span></button>
+ <hr class="drawer-divider">
+ <div class="drawer-section">App information</div>
+ <button class="drawer-btn legal-choice" data-page="about">ⓘ <span>About the app</span></button>
+ <button class="drawer-btn legal-choice" data-page="privacy">🔒 <span>Privacy Policy</span></button>
+ <button class="drawer-btn legal-choice" data-page="terms">▤ <span>Terms & Conditions</span></button>
+ <button class="drawer-btn legal-choice" data-page="contact">✉ <span>Contact & Support</span></button>
+ <button class="drawer-btn legal-choice" data-page="playstore">✓ <span>Play Store readiness</span></button>
+ <section id="drawerDashboard" hidden>
+  <div class="settings-heading"><h2>Study dashboard</h2><button class="secondary small-btn" id="hideDashboard">Close</button></div>
+  <div class="dashboard-grid"><div><strong id="todayDone">0</strong><span>Today answered</span></div><div><strong id="todayAccuracy">0%</strong><span>Today accuracy</span></div><div><strong id="streakDays">0</strong><span>Day streak</span></div></div><div class="dashboard-grid"><div><strong id="pointsTotal">0</strong><span>Practice points</span></div><div><strong id="todayPoints">0</strong><span>Points today</span></div><div><strong id="wrongCount">0</strong><span>Wrong to retry</span></div></div><div class="actions"><button class="secondary" id="redeemPoints" type="button">Points & rewards</button></div><div id="rewardsPanel" hidden></div>
+  <label class="field target-field">Daily question target <select id="dailyTarget"><option>20</option><option selected>50</option><option>75</option><option>100</option></select></label>
+  <div class="target-track"><div id="targetProgress"></div></div><p class="note" id="targetText">0 / 50 questions</p>
+  <div class="actions"><button class="secondary" id="mistakeMode" type="button">Mistake practice</button><button class="secondary" id="timedMode" type="button">3-minute speed test</button></div>
+  <div class="actions"><button class="secondary" id="exportData" type="button">Export progress</button><button class="secondary" id="resetHistory" type="button">Reset history</button></div><div id="dashboardWeak"></div>
+ </section>
+ <section id="drawerSettings" hidden>
+  <div class="settings-heading"><h2>Settings</h2><button class="secondary small-btn" id="hideSettings">Close</button></div>
+  <label class="sound-toggle"><input type="checkbox" id="soundEnabled" checked> Correct / incorrect sound ON</label>
+  <p class="note">Sound and practice history settings.</p>
+  <div class="actions"><button class="secondary" id="showProgress" type="button">View weak topics</button><button class="secondary" id="resetProgress" type="button">Reset progress</button></div><div id="progressPanel" hidden></div>
+ </section>
+</aside>
+<div id="dashboardPage" hidden></div>
+
+<header>
+  <div class="header-top"><button id="openMenu" class="menu-btn" type="button" aria-label="Open menu">☰</button><div class="owner-avatar" aria-label="Infinity logo">∞</div><div class="brand"><h1>Table Practice</h1><p class="owner-tag">By Surya</p></div></div>
+  <button id="toggleOptions" class="options-toggle" type="button" aria-expanded="false">⚙ Practice options <span id="optionsChevron">＋</span></button>
+  <div class="controls" id="practiceControls">
+<label class="field" id="practiceModeField" style="display:none!important" hidden>Practice mode<select id="quickNav"><option value="tables">Table</option><option value="squares">Square</option><option value="roots">Square Root</option><option value="cubes">Cube</option><option value="cuberoots">Cube Root</option><option value="settings">Settings</option></select></label><select id="practiceMode" hidden><option value="tables">Tables</option><option value="squares">Squares</option><option value="roots">Square Roots</option><option value="cubes">Cubes</option><option value="cuberoots">Cube Roots</option></select>
+    <label class="field" id="tableField">Table
+      <select id="table"></select>
+    </label>
+    <label class="field">From <select id="rangeStart"></select></label>
+    <label class="field">To <select id="rangeEnd"></select></label>
+    <label class="field">Questions
+      <select id="count"><option value="10">10</option><option value="12">12</option><option value="20">20</option></select>
+    </label>
+  </div>
+</header>
+<main>
+  <section class="stats">
+  <button class="stat" id="scoreCard" type="button"><strong id="score">0/0</strong><span>Correct answers</span></button>
+  <button class="stat" id="accuracyCard" type="button"><strong id="accuracy">0%</strong><span>Accuracy</span></button>
+  <button class="stat" id="attemptedCard" type="button"><strong id="attempted">0</strong><span>Attempted</span></button>
+</section>
+  <div class="table-head"><span>#</span><span>Question</span><span>Your answer</span><span>Result</span></div>
+  <div id="rows"></div>
+  <div class="actions">
+    <button class="secondary" id="clear">Clear answers</button>
+    <button class="secondary" id="wrongPractice" type="button">Wrong questions</button>
+    <button id="nextTableBottom" type="button">Next table →</button>
+  </div>
+  <section id="detailPanel" class="settings-panel" hidden><div class="settings-heading"><h2 id="detailTitle">Practice details</h2><button class="secondary small-btn" id="closeDetails" type="button">Close</button></div><div id="detailBody"></div></section>
+</main>
+<script>
+const tableSel=document.getElementById('table'),countSel=document.getElementById('count'),rows=document.getElementById('rows');
+for(let n=2;n<=30;n++){let o=document.createElement('option');o.value=n;o.textContent=n+' ka table';if(n===13)o.selected=true;tableSel.appendChild(o)}
+const rangeStart=document.getElementById('rangeStart'),rangeEnd=document.getElementById('rangeEnd');
+for(let n=1;n<=100;n++){for(const sel of [rangeStart,rangeEnd]){const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o)}}
+rangeStart.value='12';rangeEnd.value='25';tableSel.value='12';document.getElementById('practiceMode').value='tables';
+function shuffled(nums){for(let i=nums.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[nums[i],nums[j]]=[nums[j],nums[i]]}return nums}
+function syncRange(){let a=Number(rangeStart.value),b=Number(rangeEnd.value);if(a>b){rangeEnd.value=String(a);b=a}return [a,b]}
+function build(){
+ const mode=document.getElementById('practiceMode')?.value||'tables';
+ const n=Number(tableSel.value), count=Number(countSel.value);
+ const [from,to]=syncRange();
+ rows.innerHTML='';
+ rows.style.display='block';
+ tableSel.parentElement.style.display=mode==='tables'?'':'none';
+ rangeStart.parentElement.style.display='';
+ rangeEnd.parentElement.style.display='';
+ const nextBottom=document.getElementById('nextTableBottom');
+ if(nextBottom) nextBottom.style.display=mode==='tables'?'':'none';
+ if(mode==='tables'){
+   for(let i=1;i<=count;i++) addQuestion(i,`${n} × ${i} =`,n*i);
+ } else {
+   const values=shuffled(Array.from({length:to-from+1},(_,i)=>from+i));
+   const chosen=values.slice(0,Math.min(count,values.length));
+   chosen.forEach((v,i)=>{
+     if(mode==='squares') addQuestion(i+1,`${v}² =`,v*v);
+     else if(mode==='roots') addQuestion(i+1,`√${v*v} =`,v);
+     else if(mode==='cubes') addQuestion(i+1,`${v}³ =`,v*v*v);
+     else addQuestion(i+1,`∛${v*v*v} =`,v);
+   });
+ }
+ updateStats();
+ savePrefs();
+ trackEvent('practice_started',{mode:mode,table:mode==='tables'?String(n):undefined,question_count:count});
+}
+
+const HISTORY_KEY='tablePracticeHistory_v1';
+const SOUND_KEY='tablePracticeSound_v1';
+const PREFS_KEY='tablePracticePrefs_v1';
+// Add your GA4 Measurement ID here after creating a Google Analytics web stream.
+// Analytics stays inactive until a real ID replaces this placeholder.
+const GA4_MEASUREMENT_ID='G-REPLACE_ME';
+function trackEvent(name,params={}){
+ try{const u=JSON.parse(localStorage.getItem('tablePracticeUsage_v1')||'{}');u[name]=(u[name]||0)+1;localStorage.setItem('tablePracticeUsage_v1',JSON.stringify(u));}catch(e){}
+ if(GA4_MEASUREMENT_ID && /^G-[A-Z0-9]+$/.test(GA4_MEASUREMENT_ID) && GA4_MEASUREMENT_ID!=='G-REPLACE_ME' && typeof window.gtag==='function')window.gtag('event',name,params);
+}
+function initAnalytics(){if(!GA4_MEASUREMENT_ID || GA4_MEASUREMENT_ID==='G-REPLACE_ME' || !/^G-[A-Z0-9]+$/.test(GA4_MEASUREMENT_ID))return;window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};window.gtag('js',new Date());window.gtag('config',GA4_MEASUREMENT_ID);const script=document.createElement('script');script.async=true;script.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(GA4_MEASUREMENT_ID);document.head.appendChild(script);}
+function savePrefs(){try{localStorage.setItem(PREFS_KEY,JSON.stringify({mode:document.getElementById('practiceMode').value,table:tableSel.value,from:rangeStart.value,to:rangeEnd.value,count:countSel.value}));}catch(e){}}
+function restorePrefs(){try{const p=JSON.parse(localStorage.getItem(PREFS_KEY)||'null');if(!p)return;if(['tables','squares','roots','cubes','cuberoots'].includes(p.mode))document.getElementById('practiceMode').value=p.mode;if(p.table && [...tableSel.options].some(o=>o.value===String(p.table)))tableSel.value=String(p.table);if(p.from && [...rangeStart.options].some(o=>o.value===String(p.from)))rangeStart.value=String(p.from);if(p.to && [...rangeEnd.options].some(o=>o.value===String(p.to)))rangeEnd.value=String(p.to);if(p.count && [...countSel.options].some(o=>o.value===String(p.count)))countSel.value=String(p.count);}catch(e){}}
+
+let audioCtx=null;
+function soundIsOn(){const saved=localStorage.getItem(SOUND_KEY);return saved===null?true:saved==='true'}
+function playResultSound(correct){
+ if(!soundIsOn())return;
+ try{
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC)return;
+  if(!audioCtx)audioCtx=new AC();
+  if(audioCtx.state==='suspended')audioCtx.resume();
+  const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
+  osc.connect(gain);gain.connect(audioCtx.destination);
+  osc.type='sine';osc.frequency.value=correct?880:220;
+  gain.gain.setValueAtTime(0.0001,audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.18,audioCtx.currentTime+0.015);
+  gain.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+(correct?0.16:0.24));
+  osc.start();osc.stop(audioCtx.currentTime+(correct?0.17:0.25));
+ }catch(e){}
+}
+function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY)||'{}')}catch(e){return {}}}
+function recordAnswer(input,force=false){
+ const val=input.value.trim();if(!val)return;
+ const correct=Number(val)===Number(input.dataset.answer);
+ const signature=val+'|'+(correct?'1':'0');
+ if(!force && input.dataset.lastRecorded===signature)return;
+ input.dataset.lastRecorded=signature;
+ const key=input.dataset.questionKey||input.parentElement.querySelector('.question').textContent;
+ const history=getHistory();const item=history[key]||{attempts:0,correct:0,wrong:0};
+ item.attempts++;if(correct)item.correct++;else item.wrong++;
+ history[key]=item;localStorage.setItem(HISTORY_KEY,JSON.stringify(history));
+ playResultSound(correct);
+}
+function renderProgress(){
+ const panel=document.getElementById('progressPanel');panel.hidden=false;
+ const hist=getHistory();const entries=Object.entries(hist);
+ if(!entries.length){panel.innerHTML='<p class="note">Abhi progress save nahi hui. Answers solve karke check karo.</p>';return}
+ entries.sort((a,b)=>((b[1].wrong/Math.max(1,b[1].attempts))-(a[1].wrong/Math.max(1,a[1].attempts))) || b[1].wrong-a[1].wrong);
+ panel.innerHTML='<p class="note">Questions with the most mistakes appear first.</p>'+entries.slice(0,30).map(([q,v])=>`<div class="progress-row"><span>${escapeHtml(q)}</span><span class="${v.wrong?'weak':''}">${v.wrong} wrong / ${v.attempts} tries</span></div>`).join('');
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function addQuestion(i, question, answer){
+ const row=document.createElement('div');row.className='item';
+ row.innerHTML=`<div class="num">${i}</div><div class="question"></div><input class="answer" type="number" inputmode="numeric" aria-label="Question ${i} answer" data-answer="${answer}" data-question-key="" placeholder="?" /><button class="mark" type="button" aria-label="Clear answer and result">—</button>`;
+ row.querySelector('.question').textContent=question;
+ const input=row.querySelector('input'),mark=row.querySelector('.mark');
+ const modeNow=document.getElementById('practiceMode').value;
+ input.dataset.questionKey=modeNow+'|'+(modeNow==='tables'?tableSel.value+'|':'')+question;
+ input.dataset.lastRecorded='';
+
+ input.addEventListener('input',()=>{
+  const val=input.value.trim();input.classList.remove('correct','wrong');mark.classList.remove('correct','wrong');
+  if(!val){mark.textContent='—';updateStats();return}
+  if(Number(val)===Number(input.dataset.answer)){input.classList.add('correct');mark.classList.add('correct');mark.textContent='✓'}
+  else{input.classList.add('wrong');mark.classList.add('wrong');mark.textContent='✕'}
+  updateStats();
+ });
+ input.addEventListener('blur',()=>recordAnswer(input));
+ input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();recordAnswer(input);const a=[...rows.querySelectorAll('input')],idx=a.indexOf(input);if(a[idx+1]){a[idx+1].focus()}else if((document.getElementById('practiceMode').value==='tables') && a.every(x=>x.value.trim()!=='')){goNextTable()}}});
+ mark.addEventListener('click',()=>{if(!mark.classList.contains('wrong')){if(mark.classList.contains('correct'))return;return;}const recorded=input.dataset.lastRecorded||'';if(recorded){sessionAnswered=Math.max(0,sessionAnswered-1);if(recorded.endsWith('|1'))sessionCorrect=Math.max(0,sessionCorrect-1)}input.value='';input.dataset.lastRecorded='';input.classList.remove('correct','wrong');mark.classList.remove('correct','wrong');mark.textContent='—';trackEvent('wrong_clear_clicked',{mode:modeNow,question:question});updateStats();input.focus()});
+ rows.appendChild(row);
+}
+let sessionAnswered=0,sessionCorrect=0;
+function updateStats(){
+ document.getElementById('score').textContent=`${sessionCorrect}/${sessionAnswered}`;
+ document.getElementById('accuracy').textContent=(sessionAnswered?Math.round(sessionCorrect/sessionAnswered*100):0)+'%';
+ document.getElementById('attempted').textContent=sessionAnswered;
+ const d=getDaily(),today=d[todayKey()]||{answered:0,correct:0,points:0};
+ const hist=getHistory();document.getElementById('wrongCount').textContent=Object.values(hist).reduce((n,v)=>n+(v.wrong||0),0);
+ document.getElementById('pointsTotal').textContent=localStorage.getItem('tablePracticePoints_v1')||'0';
+ document.getElementById('todayPoints').textContent=today.points||0;
+}
+document.getElementById('clear').addEventListener('click',()=>{[...rows.querySelectorAll('input')].forEach(i=>{i.value='';i.dataset.lastRecorded='';i.classList.remove('correct','wrong');const m=i.parentElement.querySelector('.mark');m.textContent='—';m.classList.remove('correct','wrong')});updateStats()});
+const newTestButton=document.getElementById('new');if(newTestButton)newTestButton.addEventListener('click',build);
+function goNextTable(){
+  const current=Number(tableSel.value), start=Number(rangeStart.value), end=Number(rangeEnd.value);
+  const next=current>=end?start:Math.max(start,current+1);
+  tableSel.value=String(Math.max(2,Math.min(30,next)));
+  build();
+  const first=rows.querySelector('input');if(first){first.focus();first.select?.()}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('nextTableBottom').addEventListener('click',goNextTable);
+tableSel.addEventListener('change',()=>{
+  trackEvent('table_selected',{table:tableSel.value});savePrefs();build();
+  const current=Number(tableSel.value);
+
+});
+countSel.addEventListener('change',()=>{savePrefs();build()});rangeStart.addEventListener('change',()=>{syncRange();if(document.getElementById('practiceMode').value==='tables')tableSel.value=String(Math.max(2,Number(rangeStart.value)));savePrefs();build()});rangeEnd.addEventListener('change',()=>{syncRange();savePrefs();build()});document.getElementById('practiceMode').addEventListener('change',()=>{trackEvent('practice_mode_selected',{mode:document.getElementById('practiceMode').value});savePrefs();build()});
+const sideDrawer=document.getElementById('sideDrawer'),sideOverlay=document.getElementById('sideOverlay');
+const drawerDashboard=document.getElementById('drawerDashboard'),drawerSettings=document.getElementById('drawerSettings');
+function openDrawer(){sideDrawer.classList.add('open');sideOverlay.hidden=false}
+function closeDrawer(){sideDrawer.classList.remove('open');sideOverlay.hidden=true}
+document.getElementById('openMenu').addEventListener('click',openDrawer);
+document.getElementById('closeMenu').addEventListener('click',closeDrawer);
+sideOverlay.addEventListener('click',closeDrawer);
+// Touch gestures: swipe right from the left edge to open, swipe left to close.
+let touchStartX=0,touchStartY=0;
+document.addEventListener('touchstart',e=>{if(!e.touches||!e.touches.length)return;touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY},{passive:true});
+document.addEventListener('touchend',e=>{
+ if(!e.changedTouches||!e.changedTouches.length)return;
+ const dx=e.changedTouches[0].clientX-touchStartX,dy=e.changedTouches[0].clientY-touchStartY;
+ if(Math.abs(dx)<65||Math.abs(dx)<Math.abs(dy)*1.25)return;
+ const isOpen=sideDrawer.classList.contains('open');
+ if(isOpen&&dx<0)closeDrawer();
+ else if(!isOpen&&dx>0&&touchStartX<45)openDrawer();
+},{passive:true});
+function closeDrawerPanels(){drawerDashboard.hidden=true;drawerSettings.hidden=true}
+document.querySelectorAll('.mode-choice').forEach(btn=>btn.addEventListener('click',()=>{closeDrawerPanels();document.getElementById('practiceMode').value=btn.dataset.mode;trackEvent('practice_mode_selected',{mode:btn.dataset.mode});savePrefs();build();closeDrawer()}));
+const dashboardPage=document.getElementById('dashboardPage');
+dashboardPage.appendChild(drawerDashboard);
+document.getElementById('openDashboard').addEventListener('click',()=>{trackEvent('dashboard_opened');drawerSettings.hidden=true;closeDrawer();dashboardPage.hidden=false;drawerDashboard.hidden=false;renderDashboard();markAppPageOpen();});
+document.getElementById('hideDashboard').addEventListener('click',()=>{dashboardPage.hidden=true;drawerDashboard.hidden=true;});
+document.getElementById('openSettings').addEventListener('click',()=>{drawerDashboard.hidden=true;drawerSettings.hidden=!drawerSettings.hidden});
+document.getElementById('hideSettings').addEventListener('click',()=>drawerSettings.hidden=true);
+const soundToggle=document.getElementById('soundEnabled');soundToggle.checked=soundIsOn();
+soundToggle.addEventListener('change',()=>localStorage.setItem(SOUND_KEY,String(soundToggle.checked)));
+document.getElementById('showProgress').addEventListener('click',renderProgress);
+document.getElementById('resetProgress').addEventListener('click',()=>{if(confirm('Delete all practice history?')){localStorage.removeItem(HISTORY_KEY);renderProgress()}});
+
+const DAY_KEY='tablePracticeDaily_v1';
+const TARGET_KEY='tablePracticeTarget_v1';
+let timerHandle=null, timedEnd=0, timedActive=false, mistakeOnly=false;
+function todayKey(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function getDaily(){try{return JSON.parse(localStorage.getItem(DAY_KEY)||'{}')}catch(e){return {}}}
+function recordDaily(correct){const d=getDaily(),k=todayKey();d[k]=d[k]||{answered:0,correct:0,points:0};d[k].answered++;if(correct){d[k].correct++;d[k].points=(d[k].points||0)+5}else{d[k].points=(d[k].points||0)+1}localStorage.setItem(DAY_KEY,JSON.stringify(d));localStorage.setItem('tablePracticePoints_v1',String(Number(localStorage.getItem('tablePracticePoints_v1')||0)+(correct?5:1)));renderDashboard();updateStats()}
+function renderDashboard(){const d=getDaily(),today=d[todayKey()]||{answered:0,correct:0};document.getElementById('todayDone').textContent=today.answered;document.getElementById('todayAccuracy').textContent=(today.answered?Math.round(today.correct/today.answered*100):0)+'%';document.getElementById('pointsTotal').textContent=localStorage.getItem('tablePracticePoints_v1')||'0';document.getElementById('todayPoints').textContent=today.points||0;const histForCount=getHistory();document.getElementById('wrongCount').textContent=Object.values(histForCount).reduce((n,v)=>n+(v.wrong||0),0);let streak=0;for(let i=0;i<365;i++){const date=new Date();date.setDate(date.getDate()-i);const k=`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;if(d[k]&&d[k].answered)streak++;else if(i>0)break;}document.getElementById('streakDays').textContent=streak;const target=Number(localStorage.getItem(TARGET_KEY)||50);document.getElementById('dailyTarget').value=String(target);document.getElementById('targetText').textContent=`${today.answered} / ${target} questions`;document.getElementById('targetProgress').style.width=Math.min(100,today.answered/target*100)+'%';const hist=getHistory();const weak=Object.entries(hist).filter(([k,v])=>v.wrong>0).sort((a,b)=>(b[1].wrong/Math.max(1,b[1].attempts))-(a[1].wrong/Math.max(1,a[1].attempts))).slice(0,5);document.getElementById('dashboardWeak').innerHTML=weak.length?'<p class="note"><b>Focus next:</b></p>'+weak.map(([q,v])=>`<div class="progress-row"><span>${escapeHtml(q.split('|').slice(-1)[0])}</span><span class="weak">${v.wrong} mistakes</span></div>`).join(''):'<p class="note">No mistakes recorded yet.</p>'}
+function currentModeLabel(){return ({tables:'Table',squares:'Square',roots:'Square Root',cubes:'Cube',cuberoots:'Cube Root'})[document.getElementById('practiceMode').value]||'Practice'}
+function showDetails(title,html,fullPage=true){const p=document.getElementById('detailPanel');document.getElementById('detailTitle').textContent=title;document.getElementById('detailBody').innerHTML=html;p.classList.toggle('full-page',fullPage);p.hidden=false;if(fullPage)document.body.style.overflow='hidden';else p.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function closeDetails(){const p=document.getElementById('detailPanel');p.hidden=true;p.classList.remove('full-page');document.body.style.overflow='';}
+document.getElementById('closeDetails').addEventListener('click',closeDetails);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!document.getElementById('detailPanel').hidden)closeDetails();if(!dashboardPage.hidden){dashboardPage.hidden=true;drawerDashboard.hidden=true;}}});
+// PWA back navigation: close the current full-screen page first; only then ask to exit.
+let appPageOpen=false, backExitArmed=false;try{history.replaceState({tablePracticeHome:true},'','#home')}catch(e){}
+function markAppPageOpen(){appPageOpen=true;backExitArmed=false;try{history.pushState({tablePracticePage:true},'','#app-page')}catch(e){}}
+const originalShowDetails=showDetails;
+showDetails=function(title,html,fullPage=true){originalShowDetails(title,html,fullPage);if(fullPage)markAppPageOpen()};
+const originalOpenDashboard=document.getElementById('openDashboard').onclick;
+window.addEventListener('popstate',()=>{
+ const detail=document.getElementById('detailPanel');
+ if(!detail.hidden){closeDetails();appPageOpen=false;backExitArmed=false;return;}
+ if(!dashboardPage.hidden){dashboardPage.hidden=true;drawerDashboard.hidden=true;appPageOpen=false;backExitArmed=false;return;}
+ if(sideDrawer.classList.contains('open')){closeDrawer();backExitArmed=false;return;}
+ if(!backExitArmed){backExitArmed=true;try{history.pushState({tablePracticeHome:true},'','#home')}catch(e){};return;}
+ if(confirm('Do you want to exit Table Practice?')){alert("To close the app, use your device app switcher or Home button.");}
+ backExitArmed=false;
+});
+
+const policyPages={
+ about:`<h3>Table Practice</h3><p>Table Practice is a learning tool that helps students practise multiplication tables, squares, square roots, cubes and cube roots.</p><h3>Features</h3><ul class="policy-list"><li>Instant answer checking.</li><li>Practice statistics and accuracy reports.</li><li>Retry incorrectly answered questions.</li><li>Daily targets and locally saved progress.</li></ul><p class="note">Developer: Surya.</p>`,
+ privacy:`<h3>Privacy Policy</h3><p><b>Last updated:</b> 21 October 2026</p><p>Table Practice can save practice progress and preferences locally in your browser. An account is not required in this version, and core practice data remains in this website's local storage.</p><h3>Information and storage</h3><ul class="policy-list"><li>Answers, practice history, points and settings may be stored on your current browser or device.</li><li>Clearing browser data or changing devices may remove this information. It is not automatically synchronised between devices.</li><li>The developer does not automatically have access to your locally stored practice history in this version.</li><li>If analytics, advertising, login, cloud sync or payment services are added later, this policy must be updated to reflect their actual data practices.</li></ul><h3>Children's privacy</h3><p>Parents and guardians may help children use this app. Before public release, review the intended audience and applicable child-safety and advertising policies.</p><h3>Public policy URL</h3><p><a href="./privacy.html">Open the public Privacy Policy</a></p><h3>Contact</h3><p>For privacy questions, email <b>Techsamasya@gmail.com</b>.</p><div class="policy-note">Review this policy against the final app features, hosting and any third-party services before publishing.</div>`,
+ terms:`<h3>Terms &amp; Conditions</h3><p><b>Last updated:</b> 21 October 2026</p><p>By using Table Practice, you agree to these terms. If you do not agree, stop using the app.</p><ul class="policy-list"><li>The app is intended for educational practice. Use answers and progress to support your learning.</li><li>We aim to keep the app useful and accurate but do not guarantee that every result will be error-free or that service will always be available.</li><li>Practice progress may be stored on your browser or device. Clearing data may erase it.</li><li>You must not misuse the app, damage its security or use it for unlawful purposes.</li><li>If paid features or advertising are introduced, applicable prices, payment, cancellation and refund terms will be shown before purchase.</li><li>These terms may be updated when app features or legal requirements change.</li></ul><h3>Public terms URL</h3><p><a href="./terms.html">Open the public Terms &amp; Conditions</a></p><h3>Contact</h3><p>Support: <b>Techsamasya@gmail.com</b></p><div class="policy-note">This is a basic draft, not legal advice. Review it for your actual services and local requirements before public release.</div>`,
+ contact:`<h3>Contact &amp; Support</h3><p>For bug reports, suggestions, corrections or support requests, contact the app developer by email.</p><p><b>Developer:</b> Surya</p><p><b>Support email:</b> <a href="mailto:Techsamasya@gmail.com">Techsamasya@gmail.com</a></p><p><a href="./contact.html">Open the public Contact page</a></p>`,
+ feedback:`<h3>Send Feedback</h3><p>Tell us what you like, what should be improved, or which feature you would like next.</p><form id="feedbackForm"><label class="field">Feedback type<select id="feedbackType"><option>Feature request</option><option>Bug report</option><option>Suggestion</option><option>Other</option></select></label><label class="field">Your feedback<textarea id="feedbackText" rows="5" required maxlength="1500" placeholder="Describe your feedback..." style="width:100%;padding:12px;border-radius:10px;background:var(--panel);color:var(--text);border:1px solid var(--line)"></textarea></label><button type="submit">Send feedback by email</button></form><p class="note">Your email app will open with the feedback prepared. It is sent only when you press Send in your email app.</p>`,
+ playstore:`<h3>Google Play publishing checklist</h3><p>This checklist can help prepare the app for a future Play Store release. It does not publish the app automatically.</p><ul class="policy-list"><li>Create and test a signed Android App Bundle (AAB).</li><li>Prepare a unique package name, app name, icon, screenshots, short and full descriptions, and category.</li><li>Finalize a public Privacy Policy URL, developer contact email and Terms &amp; Conditions.</li><li>Complete Play Console registration, identity/device verification and required app declarations.</li><li>Complete content rating, target audience, ads declaration, Data safety form and permissions based on the actual app.</li><li>Test on multiple Android devices and fix crashes or broken features.</li><li>New personal developer accounts may need at least 12 testers opted in to a closed test for 14 continuous days before applying for production access. Check Google's current requirements.</li><li>Submit the store listing and release for review. Approval depends on Google Play review.</li></ul><p class="note">This is currently a static PWA. The AAB build, Play Console account, testing, declarations and final approval are not complete.</p><p><a href="https://support.google.com/googleplay/android-developer/answer/14151465" target="_blank" rel="noopener">Official Google testing requirements</a></p>`
+};
+document.querySelectorAll('.legal-choice').forEach(btn=>btn.addEventListener('click',()=>{closeDrawer();const key=btn.dataset.page;showDetails(({about:'About the app',privacy:'Privacy Policy',terms:'Terms & Conditions',contact:'Contact & Support',playstore:'Play Store readiness',feedback:'Send Feedback'})[key],policyPages[key]);}));
+document.getElementById('detailBody').addEventListener('submit',e=>{if(e.target.id!=='feedbackForm')return;e.preventDefault();const type=document.getElementById('feedbackType').value;const msg=document.getElementById('feedbackText').value.trim();if(!msg)return;trackEvent('feedback_submitted',{feedback_type:type});const subject=encodeURIComponent('Table Practice feedback: '+type);const body=encodeURIComponent('Feedback type: '+type+'\n\n'+msg+'\n\nApp: Table Practice\nBy Surya');window.location.href='mailto:Techsamasya@gmail.com?subject='+subject+'&body='+body;});
+document.getElementById('scoreCard').addEventListener('click',()=>{trackEvent('correct_answers_report_opened');const hist=getHistory();const items=Object.entries(hist).filter(([k,v])=>k.startsWith(document.getElementById('practiceMode').value+'|')&&v.correct>0).slice(-25);showDetails('Correct answers',items.length?items.map(([q,v])=>`<div class="progress-row"><span>${escapeHtml(q.split('|').slice(-1)[0])}</span><span class="weak" style="color:#46d69a">${v.correct} correct</span></div>`).join(''):'<p class="note">Abhi correct answers record nahi hue.</p>')});
+document.getElementById('attemptedCard').addEventListener('click',()=>{trackEvent('attempted_report_opened');const hist=getHistory();const items=Object.entries(hist).filter(([k,v])=>k.startsWith(document.getElementById('practiceMode').value+'|')&&v.attempts>0).slice(-40);showDetails('Attempted questions',items.length?items.map(([q,v])=>`<div class="progress-row"><span>${escapeHtml(q.split('|').slice(-1)[0])}</span><span>${v.attempts} attempts</span></div>`).join(''):'<p class="note">Abhi attempts record nahi hue.</p>')});
+document.getElementById('accuracyCard').addEventListener('click',()=>{trackEvent('accuracy_report_opened');const d=getDaily(),keys=Object.keys(d).sort().slice(-7),hist=getHistory();const mode=document.getElementById('practiceMode').value;const entries=Object.entries(hist).filter(([k,v])=>k.startsWith(mode+'|'));const a=entries.reduce((n,[k,v])=>n+v.attempts,0),c=entries.reduce((n,[k,v])=>n+v.correct,0);const max=Math.max(1,...keys.map(k=>d[k].answered));showDetails('Accuracy report',`<div class="dashboard-grid"><div><strong>${a?Math.round(c/a*100):0}%</strong><span>${currentModeLabel()} accuracy</span></div><div><strong>${c}</strong><span>Correct</span></div><div><strong>${a-c}</strong><span>Incorrect attempts</span></div></div><h3>Last 7 days</h3>${keys.length?keys.map(k=>`<div class="progress-row"><span>${k}</span><span>${d[k].answered} answered · ${d[k].answered?Math.round(d[k].correct/d[k].answered*100):0}%</span></div>`).join(''):'<p class="note">Continue practising to build your daily chart.</p>'}<div style="display:flex;align-items:end;gap:7px;height:100px;margin:14px 0 4px">${keys.map(k=>`<div title="${k}: ${d[k].answered} answers" style="flex:1;background:linear-gradient(#28c5d7,#477bff);height:${Math.max(5,(d[k].answered/max)*90)}px;border-radius:6px 6px 2px 2px"></div>`).join('')}</div><p class="note">Bars show daily attempted questions; detailed accuracy above.</p>`)});
+document.getElementById('wrongPractice').addEventListener('click',()=>loadWrongPractice());
+function loadWrongPractice(){const mode=document.getElementById('practiceMode').value;const hist=getHistory();const wrong=Object.entries(hist).filter(([k,v])=>k.startsWith(mode+'|')&&v.wrong>0).sort((a,b)=>b[1].wrong-a[1].wrong);if(!wrong.length){showDetails('Wrong questions — '+currentModeLabel(),'<p class="note">No incorrect questions have been recorded in this mode yet. Practise first.</p>',false);return}rows.innerHTML='';wrong.forEach(([key,v],i)=>{const parts=key.split('|');const q=parts.slice(-1)[0];let ans=null,m=q.match(/^(\d+)\s*[×x]\s*(\d+)/);if(m)ans=+m[1]*+m[2];m=q.match(/^(\d+)²/);if(m)ans=(+m[1])**2;m=q.match(/^√(\d+)/);if(m)ans=Math.sqrt(+m[1]);m=q.match(/^(\d+)³/);if(m)ans=(+m[1])**3;m=q.match(/^∛(\d+)/);if(m)ans=Math.round(Math.cbrt(+m[1]));if(ans!==null)addQuestion(i+1,q,ans)});updateStats();showDetails('Wrong questions — '+currentModeLabel(),`<p class="note">Only previously incorrect ${currentModeLabel()} questions will be repeated. Solve them again; new mistakes will be added to your history.</p><button id="backToAll" class="secondary" type="button">Back to full practice</button>`,false);document.getElementById('backToAll').addEventListener('click',()=>{build();closeDetails()})}
+document.getElementById('redeemPoints').addEventListener('click',()=>{const points=Number(localStorage.getItem('tablePracticePoints_v1')||0);const panel=document.getElementById('rewardsPanel');panel.hidden=false;panel.innerHTML=`<div class="progress-row"><span>Total points</span><strong>${points}</strong></div><p class="note">Correct answer = 5 points; an incorrect attempt = 1 point. Points are saved in this browser.</p><div class="progress-row"><span>Practice badge (100 points)</span><button class="secondary small-btn" ${points<100?'disabled':''} data-reward="badge">${points>=100?'Claim':'100 pts'}</button></div><p class="note">Real rewards, coupons or subscriptions require an account, server and defined offer rules. This button currently supports only a local demo badge.</p>`;const b=panel.querySelector('[data-reward]');if(b&&!b.disabled)b.addEventListener('click',()=>{const claimed=localStorage.getItem('tablePracticeBadgeClaimed');if(claimed){alert('Badge already claimed.');return}localStorage.setItem('tablePracticeBadgeClaimed','yes');alert('Practice badge claimed!');b.textContent='Claimed';b.disabled=true})});
+const legacyDashboardToggle=document.getElementById('toggleDashboard');if(legacyDashboardToggle){legacyDashboardToggle.addEventListener('click',()=>{const b=document.getElementById('dashboardBody');if(!b)return;b.hidden=!b.hidden;legacyDashboardToggle.textContent=b.hidden?'Show':'Hide';if(!b.hidden)renderDashboard()});}
+document.getElementById('dailyTarget').addEventListener('change',e=>{localStorage.setItem(TARGET_KEY,e.target.value);renderDashboard()});
+document.getElementById('exportData').addEventListener('click',()=>{const payload={history:getHistory(),daily:getDaily(),exportedAt:new Date().toISOString()};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='table-practice-progress.json';a.click();URL.revokeObjectURL(a.href)});
+document.getElementById('resetHistory').addEventListener('click',()=>{if(confirm('Reset practice history?')){localStorage.removeItem(HISTORY_KEY);localStorage.removeItem(DAY_KEY);renderDashboard();renderProgress()}});
+document.getElementById('mistakeMode').addEventListener('click',()=>{const hist=getHistory();const wrong=Object.entries(hist).filter(([k,v])=>v.wrong>0).sort((a,b)=>b[1].wrong-a[1].wrong).slice(0,Number(countSel.value));if(!wrong.length){alert('Practise some questions first; your mistakes will appear here.');return}rows.innerHTML='';wrong.forEach(([key,v],i)=>{const q=key.split('|').slice(-1)[0];let answer=null;const m=q.match(/^(\d+)\s*[×x]\s*(\d+)/);if(m)answer=Number(m[1])*Number(m[2]);const sq=q.match(/^(\d+)²/);if(sq)answer=Number(sq[1])**2;const cube=q.match(/^(\d+)³/);if(cube)answer=Number(cube[1])**3;const root=q.match(/^√(\d+)/);if(root)answer=Math.sqrt(Number(root[1]));const cr=q.match(/^∛(\d+)/);if(cr)answer=Math.round(Math.cbrt(Number(cr[1])));if(answer!==null)addQuestion(i+1,q,answer)});updateStats()});
+document.getElementById('timedMode').addEventListener('click',()=>{if(timerHandle)clearInterval(timerHandle);timedActive=true;timedEnd=Date.now()+180000;const btn=document.getElementById('timedMode');btn.textContent='3:00 remaining';timerHandle=setInterval(()=>{const left=Math.max(0,Math.ceil((timedEnd-Date.now())/1000));btn.textContent=`${Math.floor(left/60)}:${String(left%60).padStart(2,'0')} remaining`;if(left<=0){clearInterval(timerHandle);timerHandle=null;timedActive=false;btn.textContent='Speed test finished';[...rows.querySelectorAll('input')].forEach(i=>i.disabled=true);alert('Time up! Tumhari accuracy upar dikh rahi hai. New test dabakar phir practice kar sakte ho.')}},250);build();});
+const _oldBuild=build;build=function(){if(timerHandle){clearInterval(timerHandle);timerHandle=null;timedActive=false} _oldBuild();};
+const _oldRecord=recordAnswer;recordAnswer=function(input,force=false){
+ const before=input.dataset.lastRecorded;
+ _oldRecord(input,force);
+ if(input.value.trim() && input.dataset.lastRecorded!==before){
+  const isCorrect=Number(input.value)===Number(input.dataset.answer);
+  sessionAnswered++;if(isCorrect)sessionCorrect++;
+  recordDaily(isCorrect);updateStats();
+ }
+};
+renderDashboard();
+restorePrefs();
+initAnalytics();
+document.getElementById('practiceMode').value=document.getElementById('practiceMode').value||'tables';
+const optionsToggle=document.getElementById('toggleOptions'),practiceControls=document.getElementById('practiceControls');
+optionsToggle.addEventListener('click',()=>{const open=practiceControls.classList.toggle('open');optionsToggle.setAttribute('aria-expanded',String(open));document.getElementById('optionsChevron').textContent=open?'−':'＋';});
+build();
+</script>
+<script>
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+ window.addEventListener("load", async () => {
+  try {
+   const reg = await navigator.serviceWorker.register("./service-worker.js", {updateViaCache:"none"});
+   reg.update().catch(()=>{});
+   reg.addEventListener("updatefound",()=>{const w=reg.installing;if(w)w.addEventListener("statechange",()=>{if(w.state==="installed"&&navigator.serviceWorker.controller)w.postMessage({type:"SKIP_WAITING"});});});
+   navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!sessionStorage.getItem("pwaReloaded")){sessionStorage.setItem("pwaReloaded","1");location.reload();}});
+  } catch(e) {}
+ });
+}
+</script></body>
+</html>
